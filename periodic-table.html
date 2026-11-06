@@ -1,0 +1,716 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="theme-color" content="#080d18">
+
+    <title>ELEMENTA | Periodic Table</title>
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <!-- ELEMENTA NAVIGATION -->
+    <header class="navbar">
+
+        <a href="index.html" class="logo" id="elementa-logo">
+            <span class="logo-text">ELEMENTA</span>
+            <span id="logo-kitten" aria-hidden="true">✦</span>
+        </a>
+
+        <nav class="nav-links">
+            <a href="index.html">Home</a>
+            <a href="#periodic-table">Periodic Table</a>
+            <a href="#gesture-control" class="gesture-nav-link">Gesture Mode</a>
+            <a href="about.html">About</a>
+        </nav>
+
+    </header>
+
+
+    <main>
+
+        <!-- =========================================
+             KIANA — FULL-SCREEN GESTURE INTERFACE
+        ========================================== -->
+
+        <section
+            class="gesture-section kiana-interface"
+            id="gesture-control"
+            aria-label="KIANA scientific interface"
+        >
+
+            <!-- FULL-SCREEN CAMERA BACKGROUND -->
+            <div class="camera-preview" id="camera-preview">
+
+                <video id="webcam" autoplay playsinline muted></video>
+
+                <canvas id="hand-canvas"></canvas>
+
+                <div id="camera-overlay">
+                    <div class="camera-off-icon">◉</div>
+                    <h3>Vision offline</h3>
+                    <p>
+                        Enable your camera when you're ready
+                        to activate hand recognition.
+                    </p>
+                </div>
+
+            </div>
+
+
+            <!-- KIANA TOP BAR -->
+            <div class="kiana-topbar">
+
+                <div class="kiana-brand">
+                    <div class="kiana-brand-symbol">K</div>
+
+                    <div>
+                        <h1>KIANA</h1>
+                        <p>SCIENTIFIC DISCOVERY SYSTEM</p>
+                    </div>
+                </div>
+
+                <div class="kiana-system-status">
+                    <span class="kiana-status-indicator"></span>
+                    <span id="camera-status">SYSTEM STANDBY</span>
+                </div>
+
+                <div class="camera-controls">
+
+                    <button id="start-camera" type="button">
+                        Enable Camera
+                    </button>
+
+                    <button id="stop-camera" type="button">
+                        Disable Camera
+                    </button>
+
+                    <button id="how-to-play" type="button">
+                        Instructions
+                    </button>
+
+                    <button id="exit-gesture-mode" type="button">
+                        Exit KIANA
+                    </button>
+
+                </div>
+
+            </div>
+
+
+            <!-- KIANA MAIN WORKSPACE -->
+            <div class="kiana-workspace">
+
+                <!-- LEFT: ELEMENT DISCOVERY -->
+                <section class="kiana-discovery-panel">
+
+                    <div class="kiana-heading">
+
+                        <div class="kiana-eyebrow">
+                            ELEMENTA INTELLIGENCE SYSTEM / 01
+                        </div>
+
+                        <h2>Explore the elements.</h2>
+
+                        <p>
+                            Enter the world of matter. Discover the
+                            building blocks of the universe through
+                            KIANA's interactive scientific interface.
+                        </p>
+
+                    </div>
+
+
+                    <!-- SEARCH -->
+                    <div class="kiana-search-area">
+
+                        <label for="kiana-search">
+                            SEARCH ELEMENTS
+                        </label>
+
+                        <input
+                            type="search"
+                            id="kiana-search"
+                            placeholder="Search by name, symbol or atomic number..."
+                            autocomplete="off"
+                        >
+
+                    </div>
+
+
+                    <!-- FILTERS -->
+                    <div class="kiana-discovery-toolbar">
+
+                        <div>
+                            <span class="kiana-small-label">
+                                ELEMENT DATABASE
+                            </span>
+
+                            <p id="kiana-result-count">
+                                118 ELEMENTS AVAILABLE
+                            </p>
+                        </div>
+
+                        <div class="kiana-filter">
+
+                            <label for="kiana-category-filter">
+                                CATEGORY
+                            </label>
+
+                            <select id="kiana-category-filter">
+                                <option value="all">All categories</option>
+                                <option value="alkali metal">Alkali metals</option>
+                                <option value="alkaline earth metal">Alkaline earth metals</option>
+                                <option value="transition metal">Transition metals</option>
+                                <option value="post-transition metal">Post-transition metals</option>
+                                <option value="metalloid">Metalloids</option>
+                                <option value="nonmetal">Nonmetals</option>
+                                <option value="halogen">Halogens</option>
+                                <option value="noble gas">Noble gases</option>
+                                <option value="lanthanide">Lanthanides</option>
+                                <option value="actinide">Actinides</option>
+                            </select>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- ELEMENT CARDS GENERATED BY app.js -->
+                    <div
+                        class="kiana-element-grid"
+                        id="kiana-element-grid"
+                        aria-label="KIANA element collection"
+                    >
+
+                        <div class="kiana-loading" id="gesture-loading">
+                            <span class="kiana-loading-orb"></span>
+                            <p>INITIALIZING ELEMENT DATABASE...</p>
+                        </div>
+
+                    </div>
+
+                </section>
+
+
+                <!-- RIGHT: KIANA VISION -->
+                <aside class="kiana-vision-panel">
+
+                    <div class="kiana-panel-heading">
+
+                        <div>
+                            <span class="kiana-eyebrow">
+                                KIANA VISION
+                            </span>
+
+                            <h2>Hand recognition</h2>
+                        </div>
+
+                        <span class="kiana-vision-icon">◉</span>
+
+                    </div>
+
+
+                    <!-- CAMERA CONTROLS AND STATUS
+                         The actual camera preview is now
+                         at the beginning of the KIANA section.
+                    -->
+                    <div class="camera-container kiana-camera-container">
+
+                        <div id="gesture-readout">
+                            WAITING FOR INPUT
+                        </div>
+
+                        <div class="kiana-camera-footer">
+
+                            <span id="pinch-status">
+                                PINCH: INACTIVE
+                            </span>
+
+                            <span id="kiana-vision-status">
+                                CAMERA OFF
+                            </span>
+
+                        </div>
+
+                    </div>
+
+
+                    <!-- GESTURE INSTRUCTIONS -->
+                    <div class="kiana-gesture-instructions">
+
+                        <span class="kiana-eyebrow">
+                            INTERACTION GUIDE
+                        </span>
+
+                        <div class="kiana-gesture-item">
+                            <span class="kiana-gesture-symbol">☝</span>
+                            <div>
+                                <strong>Point</strong>
+                                <p>Move your index finger to explore.</p>
+                            </div>
+                        </div>
+
+                        <div class="kiana-gesture-item">
+                            <span class="kiana-gesture-symbol">🤏</span>
+                            <div>
+                                <strong>Pinch</strong>
+                                <p>Select an element.</p>
+                            </div>
+                        </div>
+
+                        <div class="kiana-gesture-item">
+                            <span class="kiana-gesture-symbol">✋</span>
+                            <div>
+                                <strong>Open hand</strong>
+                                <p>Keep your hand visible to KIANA.</p>
+                            </div>
+                        </div>
+
+                    </div>
+
+
+                    <!-- SYSTEM INFORMATION -->
+                    <div class="kiana-system-information">
+
+                        <div>
+                            <span>SYSTEM</span>
+                            <strong>KIANA CORE</strong>
+                        </div>
+
+                        <div>
+                            <span>VISION ENGINE</span>
+                            <strong>MEDIAPIPE</strong>
+                        </div>
+
+                        <div>
+                            <span>DATABASE</span>
+                            <strong>118 ELEMENTS</strong>
+                        </div>
+
+                    </div>
+
+                </aside>
+
+            </div>
+
+
+            <!-- KIANA ELEMENT PROFILE -->
+            <section
+                class="kiana-profile-view"
+                id="kiana-profile-view"
+                hidden
+            >
+
+                <button
+                    type="button"
+                    id="kiana-profile-back"
+                    class="kiana-back-button"
+                >
+                    ← BACK TO DISCOVERY
+                </button>
+
+                <div class="kiana-profile-content">
+
+                    <div class="kiana-profile-visual">
+
+                        <div class="kiana-profile-image-container">
+
+                            <img
+                                id="kiana-profile-image"
+                                src=""
+                                alt="Element visual"
+                            >
+
+                            <div
+                                class="kiana-profile-symbol-placeholder"
+                                id="kiana-profile-placeholder"
+                            ></div>
+
+                        </div>
+
+                    </div>
+
+
+                    <div class="kiana-profile-information">
+
+                        <span class="kiana-eyebrow">
+                            KIANA DISCOVERY / ELEMENT PROFILE
+                        </span>
+
+                        <div class="kiana-profile-identity">
+
+                            <span id="kiana-profile-number">00</span>
+
+                            <h2 id="kiana-profile-symbol">--</h2>
+
+                            <h3 id="kiana-profile-name">
+                                Element name
+                            </h3>
+
+                            <span id="kiana-profile-category">
+                                CATEGORY
+                            </span>
+
+                        </div>
+
+                        <p id="kiana-profile-description">
+                            Element information will appear here.
+                        </p>
+
+
+                        <div class="kiana-property-grid">
+
+                            <div class="kiana-property">
+                                <span>ATOMIC MASS</span>
+                                <strong id="kiana-profile-mass">--</strong>
+                            </div>
+
+                            <div class="kiana-property">
+                                <span>GROUP</span>
+                                <strong id="kiana-profile-group">--</strong>
+                            </div>
+
+                            <div class="kiana-property">
+                                <span>PERIOD</span>
+                                <strong id="kiana-profile-period">--</strong>
+                            </div>
+
+                            <div class="kiana-property">
+                                <span>ATOMIC NUMBER</span>
+                                <strong id="kiana-profile-atomic-number">--</strong>
+                            </div>
+
+                        </div>
+
+
+                        <!-- RARE ELEMENT INFORMATION -->
+                        <div
+                            class="kiana-rare-details"
+                            id="kiana-rare-details"
+                            hidden
+                        >
+
+                            <h3>RARE ELEMENT INTELLIGENCE</h3>
+
+                            <div class="kiana-property-grid">
+
+                                <div class="kiana-property">
+                                    <span>ABUNDANCE</span>
+                                    <strong id="kiana-profile-abundance">--</strong>
+                                </div>
+
+                                <div class="kiana-property">
+                                    <span>AVAILABILITY</span>
+                                    <strong id="kiana-profile-availability">--</strong>
+                                </div>
+
+                            </div>
+
+                            <div class="kiana-rare-information">
+                                <span>SOURCES</span>
+                                <p id="kiana-profile-sources">--</p>
+                            </div>
+
+                            <div class="kiana-rare-information">
+                                <span>APPLICATIONS</span>
+                                <p id="kiana-profile-use">--</p>
+                            </div>
+
+                            <div class="kiana-rare-information">
+                                <span>COUNTRIES</span>
+                                <p id="kiana-profile-countries">--</p>
+                            </div>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+
+            <!-- GESTURE CURSOR -->
+            <div id="gesture-cursor" aria-hidden="true"></div>
+
+
+            <!-- KIANA FOOTER -->
+            <footer class="kiana-footer">
+
+                <span>ELEMENTA × KIANA</span>
+
+                <span>EXPLORE · DISCOVER · UNDERSTAND</span>
+
+                <span>SCIENTIFIC INTERFACE / V1.0</span>
+
+            </footer>
+
+        </section>
+
+
+        <!-- =========================================
+             NORMAL ELEMENTA PERIODIC TABLE
+        ========================================== -->
+        <section class="periodic-section" id="periodic-table">
+
+            <div class="section-heading">
+
+                <span class="section-eyebrow">
+                    EXPLORE THE BUILDING BLOCKS OF MATTER
+                </span>
+
+                <h2>The Periodic Table</h2>
+
+                <p>
+                    Discover all 118 known chemical elements
+                    and understand the science behind them.
+                </p>
+
+            </div>
+
+            <div class="table-instruction">
+                Select an element to explore its properties.
+            </div>
+
+            <div class="periodic-layout">
+
+                <div
+                    id="periodic-grid"
+                    class="periodic-grid"
+                    aria-label="Periodic table of elements"
+                ></div>
+
+            </div>
+
+            <a href="#rare-elements-explorer" class="scroll-down-link">
+                Explore rare elements ↓
+            </a>
+
+
+            <!-- CATEGORY LEGEND -->
+            <div class="category-legend-section">
+
+                <h3>Element Categories</h3>
+
+                <p>
+                    Explore the different families of elements.
+                </p>
+
+                <div class="category-legend">
+
+                    <div class="legend-item">
+                        <span class="legend-color alkali-metal"></span>
+                        <span>Alkali Metals</span>
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-color alkaline-earth-metal"></span>
+                        <span>Alkaline Earth Metals</span>
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-color transition-metal"></span>
+                        <span>Transition Metals</span>
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-color post-transition-metal"></span>
+                        <span>Post-transition Metals</span>
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-color metalloid"></span>
+                        <span>Metalloids</span>
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-color nonmetal"></span>
+                        <span>Nonmetals</span>
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-color halogen"></span>
+                        <span>Halogens</span>
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-color noble-gas"></span>
+                        <span>Noble Gases</span>
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-color lanthanide"></span>
+                        <span>Lanthanides</span>
+                    </div>
+
+                    <div class="legend-item">
+                        <span class="legend-color actinide"></span>
+                        <span>Actinides</span>
+                    </div>
+
+                </div>
+
+            </div>
+
+
+            <!-- RARE ELEMENTS NAVIGATION -->
+            <div class="rare-explorer-navigation">
+
+                <button
+                    class="rare-explorer-button"
+                    onclick="document.getElementById('rare-elements-explorer').scrollIntoView({ behavior: 'smooth' })"
+                >
+                    <span>Explore Rare Elements</span>
+                    <span class="explore-arrow">↓</span>
+                </button>
+
+            </div>
+
+        </section>
+
+
+        <!-- =========================================
+             RARE ELEMENTS EXPLORER
+        ========================================== -->
+        <section
+            class="rare-elements-section"
+            id="rare-elements-explorer"
+        >
+
+            <div class="section-heading">
+
+                <span class="section-eyebrow">
+                    THE ELEMENTS BEHIND MODERN TECHNOLOGY
+                </span>
+
+                <h2>Rare Elements Explorer</h2>
+
+                <p>
+                    Discover rare earth elements, their sources,
+                    availability and applications.
+                </p>
+
+            </div>
+
+
+            <div class="rare-elements-intro">
+
+                <div class="rare-elements-text">
+
+                    <h3>The hidden materials shaping our world.</h3>
+
+                    <p>
+                        From smartphones to electric vehicles,
+                        rare earth elements play an important role
+                        in the technology we use every day.
+                    </p>
+
+                </div>
+
+                <div class="rare-elements-art" aria-hidden="true">
+                    <span>✦</span>
+                </div>
+
+            </div>
+
+
+            <div
+                class="rare-elements-grid"
+                id="rare-elements-grid"
+            ></div>
+
+
+            <button
+                type="button"
+                id="gateway-scroll-btn"
+            >
+                Enter the KIANA experience ↓
+            </button>
+
+        </section>
+
+
+        <!-- =========================================
+             GESTURE MODE GATEWAY
+        ========================================== -->
+        <section class="gesture-gateway" id="gesture-gateway">
+
+            <div class="gateway-content">
+
+                <span class="section-eyebrow">
+                    A NEW WAY TO EXPLORE SCIENCE
+                </span>
+
+                <h2>Beyond Touch.</h2>
+
+                <h3>Meet KIANA.</h3>
+
+                <p>
+                    Explore the elements through an interactive
+                    scientific interface powered by hand recognition.
+                </p>
+
+                <p class="gateway-camera-note">
+                    Your camera will remain off until you choose
+                    to enable it inside KIANA.
+                </p>
+
+                <button
+                    type="button"
+                    id="gateway-unlock"
+                >
+                    ENTER GESTURE MODE
+                </button>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- ELEMENT DETAILS POPUP -->
+    <aside
+        class="element-details"
+        id="element-details"
+        role="dialog"
+        aria-modal="true"
+        aria-label="Element details"
+    ></aside>
+
+
+    <!-- JAVASCRIPT -->
+    <script src="elements.js"></script>
+
+    <script src="app.js"></script>
+
+    <script type="module" src="gesture.js"></script>
+
+
+    <!-- KITTEN LOGO INTERACTION -->
+    <script>
+
+        const elementaLogo = document.getElementById("elementa-logo");
+        const logoKitten = document.getElementById("logo-kitten");
+
+        if (elementaLogo && logoKitten) {
+
+            elementaLogo.addEventListener("pointerenter", () => {
+                logoKitten.style.transform = "translateY(-5px) rotate(-12deg)";
+            });
+
+            elementaLogo.addEventListener("pointerleave", () => {
+                logoKitten.style.transform = "translateY(0) rotate(0)";
+            });
+
+        }
+
+    </script>
+
+</body>
+</html>

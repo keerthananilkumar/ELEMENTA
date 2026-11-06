@@ -1,0 +1,289 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ELEMENTA | Explore Chemistry</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <header class="navbar">
+
+        <div class="logo" id="elementa-logo">
+            <span class="logo-text">ELEMENTA<span>.</span></span>
+
+            <span class="logo-kitten" id="logo-kitten" aria-hidden="true">
+                <span class="white-kitten-head">
+                    <span class="kitten-ear left-ear"></span>
+                    <span class="kitten-ear right-ear"></span>
+                    <span class="kitten-eye left-eye"></span>
+                    <span class="kitten-eye right-eye"></span>
+                    <span class="kitten-cheek left-cheek"></span>
+                    <span class="kitten-cheek right-cheek"></span>
+                    <span class="kitten-nose"></span>
+                    <span class="kitten-mouth"></span>
+                </span>
+                <span class="white-kitten-paw left-paw"></span>
+                <span class="white-kitten-paw right-paw"></span>
+            </span>
+        </div>
+
+        <nav>
+            <a href="index.html">Home</a>
+            <a href="periodic-table.html">Periodic Table</a>
+            <a href="about.html">About</a>
+        </nav>
+
+        <a href="periodic-table.html#periodic-table" class="gesture-nav-link">
+            Gesture Mode
+        </a>
+
+    </header>
+
+    <main id="home">
+
+        <!-- HERO SECTION -->
+         <a href="#unlock-slider" class="scroll-down-hint">
+    <span>SCROLL DOWN</span>
+    <span class="scroll-down-arrow">⌄</span>
+</a>
+        <section class="hero">
+
+            <div class="quantum-scene" aria-hidden="true">
+
+                <div class="quantum-glow glow-one"></div>
+                <div class="quantum-glow glow-two"></div>
+
+                <div class="quantum-orbit orbit-one">
+                    <span class="quantum-electron"></span>
+                </div>
+
+                <div class="quantum-orbit orbit-two">
+                    <span class="quantum-electron"></span>
+                </div>
+
+                <div class="quantum-orbit orbit-three">
+                    <span class="quantum-electron"></span>
+                </div>
+
+                <div class="quantum-core"></div>
+                <div class="quantum-particles"></div>
+
+            </div>
+
+            <p class="eyebrow">THE WORLD OF CHEMISTRY</p>
+
+            <h1>
+                Explore the building<br>
+                blocks of <span>everything.</span>
+            </h1>
+
+            <p class="hero-description">
+                Discover chemical elements through an interactive
+                experience designed to make learning fascinating.
+            </p>
+
+        </section>
+
+
+        <!-- SLIDE TO UNLOCK SECTION -->
+        <section class="unlock-section">
+
+            <div class="unlock-content">
+
+                <p class="eyebrow">YOUR NEXT DISCOVERY AWAITS</p>
+
+                <h2>
+                    Ready to explore
+                    <span>the elements?</span>
+                </h2>
+
+                <p class="unlock-description">
+                    Unlock the periodic table and enter the world
+                    of chemical discoveries.
+                </p>
+
+                <div class="unlock-slider" id="unlock-slider">
+
+                    <div class="unlock-track"></div>
+
+                    <div class="unlock-fill" id="unlock-fill"></div>
+
+                    <span class="unlock-text" id="unlock-text">
+                        SLIDE TO EXPLORE ELEMENTA
+                    </span>
+
+                    <button
+                        class="unlock-handle"
+                        id="unlock-handle"
+                        type="button"
+                        aria-label="Slide to unlock the periodic table"
+                        aria-valuemin="0"
+                        aria-valuemax="100"
+                        aria-valuenow="0"
+                        role="slider"
+                    >
+                        <span>➜</span>
+                    </button>
+
+                </div>
+
+                <p class="unlock-hint" id="unlock-hint">
+                    DRAG THE ARROW TO THE RIGHT
+                </p>
+
+            </div>
+
+        </section>
+
+    </main>
+
+
+    <!-- SLIDER INTERACTION -->
+    <script>
+        // =========================================
+        // LOGO KITTEN INTERACTION
+        // =========================================
+
+        const logo = document.getElementById("elementa-logo");
+        const kitten = document.getElementById("logo-kitten");
+
+        if (logo && kitten) {
+            logo.addEventListener("pointerenter", () => {
+                kitten.classList.add("is-awake");
+            });
+
+            logo.addEventListener("pointerleave", () => {
+                kitten.classList.remove("is-awake");
+            });
+        }
+
+
+        // =========================================
+        // SLIDE TO UNLOCK
+        // =========================================
+
+        const slider = document.getElementById("unlock-slider");
+        const handle = document.getElementById("unlock-handle");
+        const fill = document.getElementById("unlock-fill");
+        const sliderText = document.getElementById("unlock-text");
+        const hint = document.getElementById("unlock-hint");
+
+        let isDragging = false;
+        let isUnlocked = false;
+        let startX = 0;
+        let currentPosition = 0;
+
+        function getMaximumPosition() {
+            return slider.clientWidth - handle.offsetWidth;
+        }
+
+        function updateSlider(position) {
+            const maximum = getMaximumPosition();
+
+            currentPosition = Math.max(
+                0,
+                Math.min(position, maximum)
+            );
+
+            handle.style.left = currentPosition + "px";
+
+            const progress = maximum > 0
+                ? (currentPosition / maximum) * 100
+                : 0;
+
+            fill.style.width =
+                (currentPosition + handle.offsetWidth) + "px";
+
+            handle.setAttribute(
+                "aria-valuenow",
+                Math.round(progress)
+            );
+
+            if (progress >= 95) {
+                unlockPeriodicTable();
+            }
+        }
+
+        function unlockPeriodicTable() {
+            if (isUnlocked) return;
+
+            isUnlocked = true;
+
+            slider.classList.add("unlocked");
+
+            sliderText.textContent = "ACCESS GRANTED";
+            hint.textContent = "WELCOME TO ELEMENTA ✨";
+
+            handle.innerHTML = "<span>✓</span>";
+
+            setTimeout(() => {
+                window.location.href = "periodic-table.html";
+            }, 850);
+        }
+
+        handle.addEventListener("pointerdown", (event) => {
+            if (isUnlocked) return;
+
+            isDragging = true;
+            startX = event.clientX - currentPosition;
+
+            handle.setPointerCapture(event.pointerId);
+            slider.classList.add("is-dragging");
+        });
+
+        handle.addEventListener("pointermove", (event) => {
+            if (!isDragging || isUnlocked) return;
+
+            updateSlider(event.clientX - startX);
+        });
+
+        function stopDragging() {
+            if (!isDragging) return;
+
+            isDragging = false;
+            slider.classList.remove("is-dragging");
+
+            if (!isUnlocked) {
+                updateSlider(0);
+            }
+        }
+
+        handle.addEventListener("pointerup", stopDragging);
+        handle.addEventListener("pointercancel", stopDragging);
+
+        // Keyboard accessibility
+        handle.addEventListener("keydown", (event) => {
+            if (isUnlocked) return;
+
+            const step = 20;
+
+            if (event.key === "ArrowRight") {
+                event.preventDefault();
+                updateSlider(currentPosition + step);
+            }
+
+            if (event.key === "ArrowLeft") {
+                event.preventDefault();
+                updateSlider(currentPosition - step);
+            }
+
+            if (event.key === "Home") {
+                event.preventDefault();
+                updateSlider(0);
+            }
+
+            if (event.key === "End") {
+                event.preventDefault();
+                updateSlider(getMaximumPosition());
+            }
+        });
+
+    </script>
+
+</body>
+</html>
